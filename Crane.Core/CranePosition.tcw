@@ -1,0 +1,104 @@
+{
+    "inputs" : [
+        {
+            "name" : "Angle",            
+            "terms" : [
+                {
+                    "function" : "(0,1) (5,0)",                    
+                    "term" : "Very small"
+                },
+                {
+                    "function" : "(0,0) (2.5,1) (5,0)",                    
+                    "term" : "Small"
+                },
+                {
+                    "function" : "(2.5,0) (5,1) (7.5,0)",                    
+                    "term" : "Medium small"
+                },
+				{
+                    "function" : "(5,0) (7.5,1) (10,0)",                    
+                    "term" : "Medium"
+                },
+				{
+                    "function" : "(7.5,0) (10,1) (12.5,0)",                    
+                    "term" : "Medium big"
+                },
+				{
+                    "function" : "(10,0) (12.5,1) (15,0)",                    
+                    "term" : "Big"
+                },
+                {
+                    "function" : "(12.5,0) (15,1)",                    
+                    "term" : "Very big"
+                }]
+        },
+        {
+            "name" : "Distance",            
+            "terms" : [
+                {
+                    "function" : "(0,1) (0.14,0)",                    
+                    "term" : "Very big"
+                },
+				{
+                    "function" : "(0,0) (0.14,1) (0.28,0)",                    
+                    "term" : "Big"
+                },
+				{
+                    "function" : "(0.14,0) (0.28,1) (0.42,0)",                    
+                    "term" : "Middle big"
+                },
+				{
+                    "function" : "(0.28,0) (0.42,1) (0.56,0)",                    
+                    "term" : "Middle"
+                },
+				{
+                    "function" : "(0.42,0) (0.56,1) (0.84,0)",                    
+                    "term" : "Middle low"
+                },
+                {
+                    "function" : "(0.56,0) (0.84,1) (1,0)",                    
+                    "term" : "Low"
+                },
+                {
+                    "function" : "(0.84,0) (1,1)",                    
+                    "term" : "Very low"
+                }]
+        }],    
+    "name" : "Power",    
+    "rules" : [
+        {
+            "function" : "(0.1,1) (1,0)",            
+            "term" : "Super low",            
+            "condition" : "distance is very low"
+        },
+        {
+            "function" : "(0,0) (1,1) (2,0)",            
+            "term" : "Low",            
+            "condition" : "distance is low"
+        },
+		{
+            "function" : "(1,0) (2,1) (3,0)",            
+            "term" : "Medium low",            
+            "condition" : "distance is middle low"
+        },
+		{
+            "function" : "(2,0) (3,1) (4,0)",            
+            "term" : "Medium",            
+            "condition" : "distance is middle"
+        },
+		{
+            "function" : "(3,0) (4,1) (5,0)",            
+            "term" : "Medium big",            
+            "condition" : "distance is middle big"
+        },
+		{
+            "function" : "(4,0) (5,1) (6,0)",            
+            "term" : "Big",            
+            "condition" : "distance is big"
+        },
+        {
+            "function" : "(5,0) (6,1)",            
+            "term" : "Super big",            
+            "condition" : "distance is very big"
+        }]
+}

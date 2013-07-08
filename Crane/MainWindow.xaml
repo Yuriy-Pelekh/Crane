@@ -1,0 +1,23 @@
+﻿<Window x:Class="Crane.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Crane="clr-namespace:Crane"
+        Title="MainWindow" Height="350" Width="525" MinHeight="350" MinWidth="525">
+    <TabControl Name="tabControl">
+        <TabItem Header="Core">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <DataGrid AutoGenerateColumns="True" Name="dataGrid" />
+                <Button Content="Execute" Height="23" Margin="5,3" Name="buttonExecute" Width="75" Grid.Row="1" HorizontalAlignment="Right" Click="ButtonExecuteClick" />
+                <RadioButton Content="Euler" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="5,5" Name="radioButtonEuler" VerticalAlignment="Center" IsChecked="True" />
+                <RadioButton Content="Runge-Kutta" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="70,5" Name="radioButtonRungeKutta" VerticalAlignment="Center" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="Visualization">
+            <Crane:CraneView x:Name="craneView" />
+        </TabItem>
+    </TabControl>
+</Window>
