@@ -3,21 +3,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:crane="clr-namespace:Crane"
         Title="Crane" Height="350" Width="525" MinHeight="350" MinWidth="525">
-    <TabControl Name="TabControl">
-        <TabItem Header="Core">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <DataGrid AutoGenerateColumns="True" Name="DataGrid" />
-                <Button Content="Execute" Height="23" Margin="5,3" Name="ButtonExecute" Width="75" Grid.Row="1" HorizontalAlignment="Right" Click="ButtonExecuteClick" />
-                <RadioButton Content="Euler" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="5,5" Name="RadioButtonEuler" VerticalAlignment="Center" IsChecked="True" />
-                <RadioButton Content="Runge-Kutta" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="70,5" Name="RadioButtonRungeKutta" VerticalAlignment="Center" />
-            </Grid>
-        </TabItem>
-        <TabItem Header="Visualization">
-            <crane:CraneView x:Name="CraneView" />
-        </TabItem>
-    </TabControl>
+    <Grid>
+        <TabControl Name="TabControl">
+            <TabItem Header="Core">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <DataGrid AutoGenerateColumns="True" Name="DataGrid" />
+                    <Button Content="Execute" Height="23" Margin="5,3" Width="75" Grid.Row="1" HorizontalAlignment="Right" Click="ButtonExecuteClick" />
+                    <RadioButton Content="Euler" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="5,5" Name="RadioButtonEuler" VerticalAlignment="Center" IsChecked="True" />
+                    <RadioButton Content="Runge-Kutta" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="70,5" Name="RadioButtonRungeKutta" VerticalAlignment="Center" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Visualization">
+                <crane:CraneView x:Name="CraneView" />
+            </TabItem>
+        </TabControl>
+        <crane:Spinner x:Name="Spinner" Visibility="Hidden"/>
+    </Grid>
 </Window>

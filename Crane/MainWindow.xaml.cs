@@ -41,20 +41,18 @@ namespace Crane
 
             CraneView.TopPoints = _result.Select(c => c.Distance).ToArray();
             CraneView.BottomPoints = _result.Select(c => c.Angle).ToArray();
+            Spinner.Visibility = Visibility.Hidden;
         }
 
         private void ButtonExecuteClick(object sender, RoutedEventArgs e)
         {
-            if (_worker.IsBusy)
-            {
-                MessageBox.Show("Please wait. Execution in progress.");
-            }
-            else
+            if (!_worker.IsBusy)
             {
                 _solverType = RadioButtonEuler.IsChecked.HasValue && RadioButtonEuler.IsChecked.Value
                                   ? Solvers.Euler
                                   : Solvers.RungeKutta;
 
+                Spinner.Visibility = Visibility.Visible;
                 _worker.RunWorkerAsync(_solverType);
             }
         }

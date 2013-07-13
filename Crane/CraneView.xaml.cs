@@ -27,7 +27,6 @@ namespace Crane
             Line.Y1 = maxHeight - 25;
 
             var sb = InitializeAnimation(maxWidth, duration);
-
             sb.Begin();
         }
 
