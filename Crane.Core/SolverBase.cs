@@ -1,22 +1,17 @@
-﻿using System;
-
-namespace Crane.Core
+﻿namespace Crane.Core
 {
-  public abstract class SolverBase : ISolver
-  {
-    public delegate DoubleVectorExtended Function(DoubleVectorExtended w, double um);
-
-    protected readonly Function F;
-    protected readonly DoubleVectorExtended W = new DoubleVectorExtended(4);
-
-    protected SolverBase(Function function)
+    public abstract class SolverBase : ISolver
     {
-      F = function;
-    }
+        public delegate DoubleVectorExtended Function(DoubleVectorExtended w, double um);
 
-    public virtual DoubleVectorExtended Execute(double um)
-    {
-      throw new NotImplementedException();
+        protected readonly Function F;
+        protected readonly DoubleVectorExtended W = new DoubleVectorExtended(4);
+
+        protected SolverBase(Function function)
+        {
+            F = function;
+        }
+
+        public abstract DoubleVectorExtended Execute(double um);
     }
-  }
 }

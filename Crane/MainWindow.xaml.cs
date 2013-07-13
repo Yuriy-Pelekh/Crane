@@ -1,52 +1,97 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using Crane.Core;
 
 namespace Crane
 {
-  /// <summary>
-  /// Interaction logic for MainWindow.xaml
-  /// </summary>
-  public partial class MainWindow : Window
-  {
-    public MainWindow()
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
     {
-      InitializeComponent();
+        private readonly BackgroundWorker _worker = new BackgroundWorker();
+        private Solvers _solverType;
+        private string _title;
+        private List<CranePosition> _result;
+
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            _worker.DoWork += Worker_DoWork;
+            _worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+        }
+
+        private void Worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Execute();
+        }
+
+        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Title = _title;
+
+            DataGrid.ItemsSource = _result;
+
+            CraneView.TopPoints = _result.Select(c => c.Distance).ToArray();
+            CraneView.BottomPoints = _result.Select(c => c.Angle).ToArray();
+        }
+
+        private void ButtonExecuteClick(object sender, RoutedEventArgs e)
+        {
+            if (_worker.IsBusy)
+            {
+                MessageBox.Show("Please wait. Execution in progress.");
+            }
+            else
+            {
+                _solverType = RadioButtonEuler.IsChecked.HasValue && RadioButtonEuler.IsChecked.Value
+                                  ? Solvers.Euler
+                                  : Solvers.RungeKutta;
+
+                _worker.RunWorkerAsync(_solverType);
+            }
+        }
+
+        private void Execute()
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+
+            try
+            {
+                _result = TapTask.Execute(_solverType);
+            }
+            catch (Exception ex)
+            {
+                sw.Stop();
+
+                MessageBox.Show(ex.Message);
+                return;
+            }
+            finally
+            {
+                if (sw.IsRunning)
+                {
+                    sw.Stop();
+                }
+            }
+
+            _title = string.Format(CultureInfo.InvariantCulture, "Time elapsed: {0} ms. (Version: {1})",
+                                  sw.ElapsedMilliseconds, GetAssemblyVersion());
+        }
+
+        private static string GetAssemblyVersion()
+        {
+            var executingAssembly = Assembly.GetExecutingAssembly();
+            var assemblyVersion = executingAssembly.FullName.Split(',')[1].Split('=')[1];
+            return assemblyVersion;
+        }
     }
-
-    private void ButtonExecuteClick(object sender, RoutedEventArgs e)
-    {
-      var solverType = radioButtonEuler.IsChecked.Value
-                         ? Solvers.Euler
-                         : Solvers.RungeKutta;
-
-      var sw = new Stopwatch();
-      sw.Start();
-      List<CranePosition> result;
-      try
-      {
-        result = TapTask.Execute(solverType);
-      }
-      catch(Exception ex)
-      {
-        sw.Stop();
-
-        MessageBox.Show(ex.Message);
-        return;
-      }
-
-      sw.Stop();
-
-      Title = string.Format(CultureInfo.InvariantCulture, "Time elapsed: {0} ms.", sw.ElapsedMilliseconds);
-
-      dataGrid.ItemsSource = result;
-
-      craneView.TopPoints = result.Select(c => c.Distance).ToArray();
-      craneView.BottomPoints = result.Select(c => c.Angle).ToArray();
-    }
-  }
 }

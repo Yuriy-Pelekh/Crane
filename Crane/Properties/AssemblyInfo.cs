@@ -1,6 +1,4 @@
 ﻿using System.Reflection;
-using System.Resources;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -10,9 +8,9 @@ using System.Windows;
 [assembly: AssemblyTitle("Crane")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Conscensia A/S")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Crane")]
-[assembly: AssemblyCopyright("Copyright © Conscensia A/S 2012")]
+[assembly: AssemblyCopyright("Copyright © Yuriy Pelekh 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,5 +49,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyFileVersion("1.0.*")]
