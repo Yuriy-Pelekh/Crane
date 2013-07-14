@@ -37,12 +37,21 @@ namespace Crane
 
         private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            Title = _title;
+            Title = _title ?? string.Empty;
 
             DataGrid.ItemsSource = _result;
 
-            CraneView.TopPoints = _result.Select(c => c.Distance).ToArray();
-            CraneView.BottomPoints = _result.Select(c => c.Angle).ToArray();
+            if (_result == null)
+            {
+                MessageBox.Show("Something went wrong. Result is empty.", "Error",
+                                MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                CraneView.TopPoints = _result.Select(c => c.Distance).ToArray();
+                CraneView.BottomPoints = _result.Select(c => c.Angle).ToArray();
+            }
+
             Spinner.Visibility = Visibility.Hidden;
         }
 
@@ -71,9 +80,7 @@ namespace Crane
             catch (Exception ex)
             {
                 sw.Stop();
-
-                MessageBox.Show(ex.Message);
-                return;
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {

@@ -136,8 +136,7 @@ namespace Crane.Core
         private bool Check(Solvers solverType)
         {
             var res = false;
-
-            double delta = solverType == Solvers.Euler ? 0.001 : 0.3;
+            var delta = solverType == Solvers.Euler ? 0.001 : 0.3;
 
             for (var i = CraneData.Count - 1; i >= 0 && i > CraneData.Count - 10; i--)
             {
@@ -159,7 +158,7 @@ namespace Crane.Core
                 case Solvers.RungeKutta:
                     return new RungeKutta(Tap.Calculate);
                 default:
-                    return new Euler(Tap.Calculate);
+                    throw new NotSupportedException(string.Format("Not supported solver type: {0}", solverType));
             }
         }
 
