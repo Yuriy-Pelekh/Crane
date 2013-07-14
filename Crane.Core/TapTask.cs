@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Sapienware.Algorithms.TController;
 
 namespace Crane.Core
 {
@@ -12,7 +13,7 @@ namespace Crane.Core
         {
             var resultsFileName = string.Format("Results_{0}.txt", DateTime.Now.Ticks);
 
-            var controllerHelper = new ControllerHelper();
+            var controllerHelper = new ControllerHelper<Controller>();
 
             using (var fileStream = new FileStream(RulesFileName, FileMode.Open))
             {

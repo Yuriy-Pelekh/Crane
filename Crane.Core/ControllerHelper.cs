@@ -9,7 +9,8 @@ using Sapienware.Types;
 
 namespace Crane.Core
 {
-    public class ControllerHelper
+    public class ControllerHelper<T>
+        where T : Controller, new()
     {
         #region Properties
 
@@ -41,11 +42,9 @@ namespace Crane.Core
             Inputs.Clear();
             Rules.Clear();
 
-            var controller = new Controller();
-            var serializer = new DataContractJsonSerializer(controller.GetType());
-
+            var serializer = new DataContractJsonSerializer(typeof (T));
             var serializedData = serializer.ReadObject(fileStream);
-            controller = serializedData as Controller;
+            var controller = serializedData as T;
 
             Name = controller.Name;
 
@@ -60,9 +59,9 @@ namespace Crane.Core
             }
         }
 
-        public Controller CreateController()
+        public T CreateController()
         {
-            var controller = new Controller {Name = Name};
+            var controller = new T {Name = Name};
 
             foreach (var variable in Inputs)
             {
@@ -87,11 +86,11 @@ namespace Crane.Core
                 throw new AlgorithmException("Output variable \"" + Name + "\" contains duplicate terms.");
             }
 
-            foreach (
-                var item in
-                    Inputs.Select(
-                        variable =>
-                        new Variable(variable.Name) {Terms = variable.Terms, NumericInput = variable.NumericInput}))
+            foreach (var item in Inputs.Select(variable => new Variable(variable.Name)
+                {
+                    Terms = variable.Terms,
+                    NumericInput = variable.NumericInput
+                }))
             {
                 controller.VXList.Add(item);
             }
@@ -104,7 +103,7 @@ namespace Crane.Core
             return controller;
         }
 
-        public void Execute(Controller controller, Solvers solverType)
+        public void Execute(T controller, Solvers solverType)
         {
             CraneData.Clear();
 
