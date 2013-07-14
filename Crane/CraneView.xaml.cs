@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,7 +11,7 @@ namespace Crane
     /// </summary>
     public partial class CraneView : UserControl
     {
-        private Timer timer;
+        private Timer _timer;
 
         public CraneView()
         {
@@ -45,20 +44,18 @@ namespace Crane
                 };
             storyboard.Begin();
 
-            timer = new Timer(state =>
+            _timer = new Timer(state => Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    var currentProgress = storyboard.GetCurrentProgress();
-                    var currentTime = storyboard.GetCurrentTime();
-                    Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                            InfoBlock.Text = "Progress: " + currentProgress.ToString("P0") + " Timeline: " + currentTime;
-                            if (isFinished)
-                            {
-                                timer.Change(int.MaxValue, int.MaxValue);
-                            }
-                        }));
-                });
-            timer.Change(0, 10);
+                    InfoBlock.Text = string.Format("Progress: {0:P0} Timeline: {1}",
+                                                   storyboard.GetCurrentProgress(),
+                                                   storyboard.GetCurrentTime());
+
+                    if (isFinished)
+                    {
+                        _timer.Change(int.MaxValue, int.MaxValue);
+                    }
+                })));
+            _timer.Change(0, 10);
         }
 
         private Storyboard InitializeAnimation(double to, Duration duration)
