@@ -26,6 +26,8 @@ namespace Crane
 
             _worker.DoWork += Worker_DoWork;
             _worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+
+            RulesView.TextBlock.Text = TapTask.GetRules();
         }
 
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
@@ -81,7 +83,7 @@ namespace Crane
                 }
             }
 
-            _title = string.Format(CultureInfo.InvariantCulture, "Time elapsed: {0} ms. (Version: {1})",
+            _title = string.Format(CultureInfo.InvariantCulture, "Time elapsed: {0} ms. (version: {1})",
                                   sw.ElapsedMilliseconds, GetAssemblyVersion());
         }
 

@@ -6,20 +6,21 @@ namespace Crane.Core
 {
     public static class TapTask
     {
+        private const string RulesFileName = "CranePosition.tcw";
+        
         public static List<CranePosition> Execute(Solvers solverType)
         {
-            const string rulesFileName = "CranePosition.tcw";
             var resultsFileName = string.Format("Results_{0}.txt", DateTime.Now.Ticks);
 
             var controllerHelper = new ControllerHelper();
 
-            using (var fileStream = new FileStream(rulesFileName, FileMode.Open))
+            using (var fileStream = new FileStream(RulesFileName, FileMode.Open))
             {
                 try
                 {
                     controllerHelper.Initialize(fileStream);
                 }
-                catch (Exception)
+                catch
                 {
                     fileStream.Close();
                     throw;
@@ -49,6 +50,26 @@ namespace Crane.Core
             }
 
             return controllerHelper.CraneData;
+        }
+
+        public static string GetRules()
+        {
+            using (var streamReader = new StreamReader(RulesFileName))
+            {
+                try
+                {
+                    return streamReader.ReadToEnd();
+                }
+                catch
+                {
+                    streamReader.Close();
+                    throw;
+                }
+                finally
+                {
+                    streamReader.Close();
+                }
+            }
         }
     }
 }

@@ -20,6 +20,9 @@
             <TabItem Header="Visualization">
                 <crane:CraneView x:Name="CraneView" />
             </TabItem>
+            <TabItem Header="Rules">
+                <crane:RulesView x:Name="RulesView" />
+            </TabItem>
         </TabControl>
         <crane:Spinner x:Name="Spinner" Visibility="Hidden"/>
     </Grid>
