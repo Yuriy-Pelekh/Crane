@@ -8,7 +8,7 @@ namespace Crane.Core
     public static class TapTask
     {
         private const string RulesFileName = "CranePosition.tcw";
-        
+
         public static List<CranePosition> Execute(Solvers solverType)
         {
             var resultsFileName = string.Format("Results_{0}.txt", DateTime.Now.Ticks);
@@ -20,11 +20,6 @@ namespace Crane.Core
                 try
                 {
                     controllerHelper.Initialize(fileStream);
-                }
-                catch
-                {
-                    fileStream.Close();
-                    throw;
                 }
                 finally
                 {
@@ -60,11 +55,6 @@ namespace Crane.Core
                 try
                 {
                     return streamReader.ReadToEnd();
-                }
-                catch
-                {
-                    streamReader.Close();
-                    throw;
                 }
                 finally
                 {
