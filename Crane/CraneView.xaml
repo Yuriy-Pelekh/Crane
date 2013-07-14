@@ -9,11 +9,12 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Border BorderThickness="0, 1, 0, 0" BorderBrush="Black" Margin="10">
+        <Border BorderThickness="0, 1, 0, 0" BorderBrush="Black" Margin="10" IsHitTestVisible="False">
             <Canvas Name="Canvas" IsHitTestVisible="False">
                 <Line Name="Line" Stroke="Black" X1="0" X2="0" Y1="200" Y2="0" IsHitTestVisible="False" />
             </Canvas>
         </Border>
+        <TextBlock x:Name="InfoBlock" Grid.Row="1" Margin="5" VerticalAlignment="Center" />
         <Button Content="Start" Height="23" Width="75" Margin="5" Grid.Row="1" HorizontalAlignment="Right" Click="ButtonClick" />
     </Grid>
 </UserControl>

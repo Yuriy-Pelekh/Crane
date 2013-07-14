@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -10,6 +12,8 @@ namespace Crane
     /// </summary>
     public partial class CraneView : UserControl
     {
+        private Timer timer;
+
         public CraneView()
         {
             InitializeComponent();
@@ -29,17 +33,32 @@ namespace Crane
 
             Line.Y1 = maxHeight - 25;
 
-            var sb = InitializeAnimation(maxWidth, duration);
+            var button = sender as Button;
+            button.IsEnabled = false;
 
-            var content = (sender as Button).Content;
-
-            sb.Completed += (o, args) =>
+            var isFinished = false;
+            var storyboard = InitializeAnimation(maxWidth, duration);
+            storyboard.Completed += (o, args) =>
                 {
-                    (sender as Button).Content = content;
+                    button.IsEnabled = true;
+                    isFinished = true;
                 };
+            storyboard.Begin();
 
-            (sender as Button).Content = "Restart";
-            sb.Begin();
+            timer = new Timer(state =>
+                {
+                    var currentProgress = storyboard.GetCurrentProgress();
+                    var currentTime = storyboard.GetCurrentTime();
+                    Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            InfoBlock.Text = "Progress: " + currentProgress.ToString("P0") + " Timeline: " + currentTime;
+                            if (isFinished)
+                            {
+                                timer.Change(int.MaxValue, int.MaxValue);
+                            }
+                        }));
+                });
+            timer.Change(0, 10);
         }
 
         private Storyboard InitializeAnimation(double to, Duration duration)
@@ -69,9 +88,9 @@ namespace Crane
             {
                 var topPoint = TopPoints[i];
 
-                if (topPoint > 1.0)
+                if (topPoint > 1d)
                 {
-                    topPoint = 1.0;
+                    topPoint = 1d;
                 }
 
                 myDoubleAnimationTop.KeyFrames.Add(new LinearDoubleKeyFrame
@@ -96,10 +115,11 @@ namespace Crane
             {
                 var topPoint = TopPoints[i];
 
-                if (topPoint > 1.0)
+                if (topPoint > 1d)
                 {
-                    topPoint = 1.0;
+                    topPoint = 1d;
                 }
+
                 myDoubleAnimationBottom.KeyFrames.Add(new LinearDoubleKeyFrame
                     {
                         KeyTime = KeyTime.FromPercent((double) i/TopPoints.Length),
