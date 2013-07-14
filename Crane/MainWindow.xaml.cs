@@ -37,7 +37,7 @@ namespace Crane
 
         private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            Title = _title ?? string.Empty;
+            Title = _title;
 
             DataGrid.ItemsSource = _result;
 
