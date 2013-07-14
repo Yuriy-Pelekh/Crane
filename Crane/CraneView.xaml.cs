@@ -13,20 +13,32 @@ namespace Crane
         public CraneView()
         {
             InitializeComponent();
+
+            TopPoints = new double[0];
+            BottomPoints = new double[0];
         }
 
         public double[] TopPoints { get; set; }
         public double[] BottomPoints { get; set; }
 
-        private void ButtonRunClick(object sender, RoutedEventArgs e)
+        private void ButtonClick(object sender, RoutedEventArgs e)
         {
             var duration = new Duration(TimeSpan.FromSeconds(TopPoints.Length/100.0));
-            var maxWidth = Canvas.ActualWidth - 10;
-            var maxHeight = Canvas.ActualHeight - 10;
+            var maxWidth = Canvas.ActualWidth;
+            var maxHeight = Canvas.ActualHeight;
 
             Line.Y1 = maxHeight - 25;
 
             var sb = InitializeAnimation(maxWidth, duration);
+
+            var content = (sender as Button).Content;
+
+            sb.Completed += (o, args) =>
+                {
+                    (sender as Button).Content = content;
+                };
+
+            (sender as Button).Content = "Restart";
             sb.Begin();
         }
 

@@ -9,9 +9,11 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Canvas Name="Canvas" IsHitTestVisible="False">
-            <Line Name="Line" Stroke="Black" X1="10" X2="10" Y1="200" Y2="10" IsHitTestVisible="False" />
-        </Canvas>
-        <Button Content="Run" Height="23" Width="75" Margin="5" Grid.Row="1" HorizontalAlignment="Right" Click="ButtonRunClick" />
+        <Border BorderThickness="0, 1, 0, 0" BorderBrush="Black" Margin="10">
+            <Canvas Name="Canvas" IsHitTestVisible="False">
+                <Line Name="Line" Stroke="Black" X1="0" X2="0" Y1="200" Y2="0" IsHitTestVisible="False" />
+            </Canvas>
+        </Border>
+        <Button Content="Start" Height="23" Width="75" Margin="5" Grid.Row="1" HorizontalAlignment="Right" Click="ButtonClick" />
     </Grid>
 </UserControl>

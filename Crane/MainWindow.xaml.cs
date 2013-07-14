@@ -53,7 +53,7 @@ namespace Crane
                                   : Solvers.RungeKutta;
 
                 Spinner.Visibility = Visibility.Visible;
-                _worker.RunWorkerAsync(_solverType);
+                _worker.RunWorkerAsync();
             }
         }
 

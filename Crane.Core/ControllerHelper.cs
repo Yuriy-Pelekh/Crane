@@ -150,7 +150,7 @@ namespace Crane.Core
             return res;
         }
 
-        private ISolver CreateSolver(Solvers solverType)
+        private static ISolver CreateSolver(Solvers solverType)
         {
             switch (solverType)
             {
@@ -163,7 +163,7 @@ namespace Crane.Core
             }
         }
 
-        private bool HaveDuplicates(IEnumerable<FuzzyTerm> items)
+        private static bool HaveDuplicates(IEnumerable<FuzzyTerm> items)
         {
             var distinctItemsCount = items.Select(i => i.Term).Distinct().Count();
             return distinctItemsCount != items.Count();
