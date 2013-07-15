@@ -135,7 +135,7 @@ namespace Crane.Core
         private bool Check(Solvers solverType)
         {
             var res = false;
-            var delta = solverType == Solvers.Euler ? 0.001 : 0.3;
+            var delta = solverType == Solvers.Euler ? 0.0001 : 0.3;
 
             for (var i = CraneData.Count - 1; i >= 0 && i > CraneData.Count - 10; i--)
             {

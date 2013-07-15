@@ -120,7 +120,7 @@ namespace Crane
                 myDoubleAnimationBottom.KeyFrames.Add(new LinearDoubleKeyFrame
                     {
                         KeyTime = KeyTime.FromPercent((double) i/TopPoints.Length),
-                        Value = to*topPoint + BottomPoints[i]*100
+                        Value = to*topPoint + BottomPoints[i]*500
                     });
             }
 

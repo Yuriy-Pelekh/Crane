@@ -15,7 +15,7 @@
         <StackPanel Grid.Column="1">
             <Label Content="Min power:"/>
             <ComboBox x:Name="MinPower" SelectionChanged="MinPower_OnSelectionChanged" Margin="5" />
-            <Label Content="Man power:"/>
+            <Label Content="Max power:"/>
             <ComboBox x:Name="MaxPower" Margin="5" />
             <Label Content="Number of parts:"/>
             <ComboBox x:Name="NumberOfParts" Margin="5" />

@@ -50,7 +50,6 @@ namespace Crane
             double count = (int) NumberOfParts.SelectedItem;
 
             var stringBuilder = new StringBuilder();
-
             stringBuilder.AppendLine("{\"inputs\" : [{");
             stringBuilder.AppendLine("\t\"name\" : \"Distance\",");
             stringBuilder.AppendLine("\t\"terms\" : [");
@@ -85,12 +84,10 @@ namespace Crane
                 {
                     stringBuilder.AppendLine(",");
                 }
-
                 stringBuilder.AppendLine("{");
-                stringBuilder.AppendLine(string.Format("\t\t\"function\" : \"({0},0) ({1},1) ({2},0)\",", f.Previouse,
-                                                       f.Current, f.Next));
+                stringBuilder.AppendLine(string.Format("\t\t\"function\" : \"({0},0) ({1},1) ({2},0)\",", f.Previouse, f.Current, f.Next));
                 stringBuilder.AppendLine(string.Format("\t\t\"term\" : \"T{0}\",", f.Index));
-                stringBuilder.AppendLine(string.Format("\t\"condition\" : \"distance is T{0}\"", count - f.Index));
+                stringBuilder.AppendLine(string.Format("\t\t\"condition\" : \"distance is T{0}\"", count - f.Index));
                 stringBuilder.Append("}");
                 f.SetNewValue(i + powerStep);
             }
