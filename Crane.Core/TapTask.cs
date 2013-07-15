@@ -62,5 +62,20 @@ namespace Crane.Core
                 }
             }
         }
+
+        public static void SetRules(string rules)
+        {
+            using (var streamWriter = new StreamWriter(RulesFileName,false))
+            {
+                try
+                {
+                    streamWriter.Write(rules);
+                }
+                finally
+                {
+                    streamWriter.Close();
+                }
+            }
+        }
     }
 }

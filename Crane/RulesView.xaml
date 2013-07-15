@@ -4,7 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
-    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-        <TextBlock x:Name="TextBlock" />
-    </ScrollViewer>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="110" />
+        </Grid.ColumnDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <TextBlock x:Name="TextBlock" />
+        </ScrollViewer>
+        <StackPanel Grid.Column="1">
+            <Label Content="Min power:"/>
+            <ComboBox x:Name="MinPower" SelectionChanged="MinPower_OnSelectionChanged" Margin="5" />
+            <Label Content="Man power:"/>
+            <ComboBox x:Name="MaxPower" Margin="5" />
+            <Label Content="Number of parts:"/>
+            <ComboBox x:Name="NumberOfParts" Margin="5" />
+        </StackPanel>
+        <Button Content="Update" Grid.Column="1" Margin="5" VerticalAlignment="Bottom" Click="UpdateButtonClick" />
+    </Grid>
 </UserControl>

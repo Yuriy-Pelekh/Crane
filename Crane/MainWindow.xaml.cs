@@ -26,8 +26,6 @@ namespace Crane
 
             _worker.DoWork += Worker_DoWork;
             _worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
-
-            RulesView.TextBlock.Text = TapTask.GetRules();
         }
 
         private void Worker_DoWork(object sender, DoWorkEventArgs e)

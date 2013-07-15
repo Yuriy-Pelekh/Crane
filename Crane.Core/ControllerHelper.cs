@@ -109,9 +109,9 @@ namespace Crane.Core
 
             var solver = CreateSolver(solverType);
 
-            CraneData.Add(new CranePosition {Angle = 0, Distance = 0});
+            CraneData.Add(new CranePosition {Angle = 0d, Distance = 0d});
 
-            for (var i = 0; i < 10000 && (CraneData.Last().Distance < 1 || Check(solverType)); i++)
+            for (var i = 0; i < 10000 && (CraneData.Last().Distance < 1d || Check(solverType)); i++)
             {
                 var matrix = new DoubleMatrix(1, 2);
 
