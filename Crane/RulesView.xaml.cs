@@ -21,7 +21,7 @@ namespace Crane
 
             Initialize(MinPower, Min);
             Initialize(MaxPower, Min + Step);
-            Initialize(NumberOfParts, 3, 25);
+            Initialize(NumberOfParts, 3, 97);
 
             TextBlock.Text = TapTask.GetRules();
         }
