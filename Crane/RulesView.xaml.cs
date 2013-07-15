@@ -45,58 +45,83 @@ namespace Crane
 
         private void UpdateButtonClick(object sender, RoutedEventArgs e)
         {
+            double min = (int) MinPower.SelectedItem;
+            double max = (int) MaxPower.SelectedItem;
+            double count = (int) NumberOfParts.SelectedItem;
+
             var stringBuilder = new StringBuilder();
 
-            stringBuilder.AppendLine("{");
-            stringBuilder.AppendLine("    \"inputs\" : [");
-            stringBuilder.AppendLine("        {");
-            stringBuilder.AppendLine("            \"name\" : \"Distance\",");
-            stringBuilder.AppendLine("            \"terms\" : [");
+            stringBuilder.AppendLine("{\"inputs\" : [{");
+            stringBuilder.AppendLine("\t\"name\" : \"Distance\",");
+            stringBuilder.AppendLine("\t\"terms\" : [");
 
-            stringBuilder.AppendLine("                {");
-            stringBuilder.AppendLine("                    \"function\" : \"(0,1) (0.14,0)\",");
-            stringBuilder.AppendLine("                    \"term\" : \"T1\"");
-            stringBuilder.AppendLine("                },");
+            var distanceStep = 1d/count;
+            var f = new Function(-distanceStep, 0, distanceStep);
 
-            stringBuilder.AppendLine("                {");
-            stringBuilder.AppendLine("                    \"function\" : \"(0,0) (0.14,1) (0.28,0)\",");
-            stringBuilder.AppendLine("                    \"term\" : \"T\"");
-            stringBuilder.AppendLine("                },");
-
-            stringBuilder.AppendLine("                {");
-            stringBuilder.AppendLine("                    \"function\" : \"(0.84,0) (1,1)\",");
-            stringBuilder.AppendLine("                    \"term\" : \"T0\"");
-            stringBuilder.AppendLine("                }]");
-
-            stringBuilder.AppendLine("        }],");
-            stringBuilder.AppendLine("    \"name\" : \"Power\",");
-            stringBuilder.AppendLine("    \"rules\" : [");
-
-            stringBuilder.AppendLine("        {");
-            stringBuilder.AppendLine("            \"function\" : \"(0.1,1) (0.5,0)\",");
-            stringBuilder.AppendLine("            \"term\" : \"T0\",");
-            stringBuilder.AppendLine("            \"condition\" : \"distance is T0\"");
-            stringBuilder.AppendLine("        },");
-
-            stringBuilder.AppendLine("        {");
-            stringBuilder.AppendLine("            \"function\" : \"(0,0) (0.25,1) (0.5,0)\",");
-            stringBuilder.AppendLine("            \"term\" : \"T\",");
-            stringBuilder.AppendLine("            \"condition\" : \"distance is T\"");
-            stringBuilder.AppendLine("        },");
-
-            stringBuilder.AppendLine("        {");
-            stringBuilder.AppendLine("            \"function\" : \"(1.25,0) (1.5,1)\",");
-            stringBuilder.AppendLine("            \"term\" : \"T1\",");
-            stringBuilder.AppendLine("            \"condition\" : \"distance is T\"");
-            stringBuilder.AppendLine("        }]");
+            for (var i = distanceStep; f.Index <= count; i += distanceStep)
+            {
+                if (f.Index > 0)
+                {
+                    stringBuilder.AppendLine(",");
+                }
+                stringBuilder.AppendLine("\t{");
+                stringBuilder.AppendLine(string.Format("\t\t\"function\" : \"({0},0) ({1},1) ({2},0)\",", f.Previouse, f.Current, f.Next));
+                stringBuilder.AppendLine(string.Format("\t\t\"term\" : \"T{0}\"", f.Index));
+                stringBuilder.Append("\t}");
+                f.SetNewValue(i + distanceStep);
+            }
             
-            stringBuilder.AppendLine("}");
-            stringBuilder.AppendLine(string.Empty);
+            stringBuilder.AppendLine("]");
+            stringBuilder.AppendLine("}],");
+            stringBuilder.AppendLine("\"name\" : \"Power\",");
+            stringBuilder.AppendLine("\"rules\" : [");
+
+            var powerStep = (max - min)/count;
+            f = new Function(-powerStep, 0, powerStep);
+
+            for (var i = powerStep; f.Index <= count; i += powerStep)
+            {
+                if (f.Index > 0)
+                {
+                    stringBuilder.AppendLine(",");
+                }
+
+                stringBuilder.AppendLine("{");
+                stringBuilder.AppendLine(string.Format("\t\t\"function\" : \"({0},0) ({1},1) ({2},0)\",", f.Previouse,
+                                                       f.Current, f.Next));
+                stringBuilder.AppendLine(string.Format("\t\t\"term\" : \"T{0}\",", f.Index));
+                stringBuilder.AppendLine(string.Format("\t\"condition\" : \"distance is T{0}\"", count - f.Index));
+                stringBuilder.Append("}");
+                f.SetNewValue(i + powerStep);
+            }
+
+            stringBuilder.AppendLine("]}");
 
             TapTask.SetRules(stringBuilder.ToString());
-
             TextBlock.Text = TapTask.GetRules();
+        }
+    }
 
+    public class Function
+    {
+        public Function(double previouse, double current, double next)
+        {
+            Previouse = previouse;
+            Current = current;
+            Next = next;
+        }
+
+        public double Previouse { get; private set; }
+        public double Current { get; private set; }
+        public double Next { get; private set; }
+        public int Index { get; private set; }
+
+        public void SetNewValue(double value)
+        {
+            Previouse = Current;
+            Current = Next;
+            Next = value;
+            Index++;
         }
     }
 }
